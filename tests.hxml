@@ -1,0 +1,12 @@
+extraParams.hxml
+
+-main TestAll
+-debug
+-lib utest
+-lib safety
+-lib wing
+-cp ./test
+--macro nullSafety("wing", Strict)
+
+--jvm bin/main.jar
+--cmd java -jar bin/main.jar
