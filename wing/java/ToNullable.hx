@@ -6,9 +6,9 @@ import java.awt.Component;
 import java.javax.swing.JFrame;
 import java.lang.reflect.Field;
 
-/**
- * Avoid `@:nullSafety(Off)` in user side code.
- */
+// ------------
+// Avoid `@:nullSafety(Off)` in user side code.
+// ------------
 
 @:nullSafety(Off)
 abstract JFrameNullable(JFrame) from JFrame {
