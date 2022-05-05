@@ -1,5 +1,8 @@
 package wing.java;
 
+import haxe.io.Path;
+import java.net.URI;
+import java.nio.file.Paths;
 import wing.java.ToNullable;
 import java.lang.Class;
 import java.lang.reflect.Field;
@@ -17,4 +20,8 @@ class JavaTools {
 		envMap.put(env, val);
 	}
 
+	public static inline function programPath():String {
+		final uri:URI = java.Lib.toNativeType(Sys).getProtectionDomain().getCodeSource().getLocation().toURI();
+		return Path.normalize(Paths.get(uri).toString());
+	}
 }
