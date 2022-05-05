@@ -25,5 +25,7 @@ class TestHaxeJ implements ITest {
 
 		JavaTools.putEnv("TEST_HAXE_J_ENV", "FOO");
 		Assert.isTrue(Sys.getEnv("TEST_HAXE_J_ENV") == "FOO");
+
+		Assert.isTrue(Sys.command('dir ${JavaTools.programPath()}') == 0);
 	}
 }
