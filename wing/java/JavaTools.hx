@@ -1,6 +1,5 @@
 package wing.java;
 
-import haxe.io.Path;
 import java.net.URI;
 import java.nio.file.Paths;
 import wing.java.ToNullable;
@@ -22,6 +21,6 @@ class JavaTools {
 
 	public static inline function programPath():String {
 		final uri:URI = java.Lib.toNativeType(Sys).getProtectionDomain().getCodeSource().getLocation().toURI();
-		return Path.normalize(Paths.get(uri).toString());
+		return Paths.get(uri).toString();
 	}
 }
