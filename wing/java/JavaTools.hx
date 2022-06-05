@@ -1,11 +1,11 @@
 package wing.java;
 
-import java.net.URI;
-import java.nio.file.Paths;
-import wing.java.ToNullable;
 import java.lang.Class;
 import java.lang.reflect.Field;
+import java.net.URI;
+import java.nio.file.Paths;
 import java.util.Map;
+import wing.java.ToNullable;
 
 class JavaTools {
 	// For quick use.
@@ -19,6 +19,8 @@ class JavaTools {
 		envMap.put(env, val);
 	}
 
+	// https://github.com/HaxeFoundation/haxe/pull/10697 
+	// - It will be replaced by std after release.
 	public static inline function programPath():String {
 		final uri:URI = java.Lib.toNativeType(Sys).getProtectionDomain().getCodeSource().getLocation().toURI();
 		return Std.string(Paths.get(uri));
