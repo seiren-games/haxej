@@ -1,12 +1,14 @@
 package wing.java;
 
-import wing.java.swing.MouseCallback;
 import java.NativeArray;
-import wing.java.swing.ActionCallback;
-import wing.java.swing.WindowCallback;
 import utest.Assert;
 import utest.ITest;
 import wing.Equal;
+import wing.java.swing.ActionCallback;
+import wing.java.swing.ListSelectionCallback;
+import wing.java.swing.MouseCallback;
+import wing.java.swing.TreeSelectionCallback;
+import wing.java.swing.WindowCallback;
 
 using Safety;
 
@@ -17,6 +19,8 @@ class TestHaxeJ implements ITest {
 		Noop.checkCompilable(ActionCallback);
 		Noop.checkCompilable(WindowCallback);
 		Noop.checkCompilable(MouseCallback);
+		Noop.checkCompilable(TreeSelectionCallback);
+		Noop.checkCompilable(ListSelectionCallback);
 		Noop.checkCompilable(JavaTools);
 
 		final nativeArray1:NativeArray<Int> = NativeArray.make(0, 1, 2);
