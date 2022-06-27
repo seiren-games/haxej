@@ -5,6 +5,7 @@ extraParams.hxml
 -lib utest
 -lib safety
 -lib wing
+-lib compiletime
 -cp ./test
 --macro nullSafety("wing", Strict)
 
