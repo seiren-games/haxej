@@ -1,2 +1,3 @@
 # haxej
-Utilities for haxe JVM target
+Utilities for Haxe-JVM target.  
+(Only Haxe-JVM, Haxe-Java target is not supported)  

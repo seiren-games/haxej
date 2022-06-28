@@ -1,9 +1,6 @@
 package wing.java;
 
-import wing.java.swing.MouseCallback;
 import java.NativeArray;
-import wing.java.swing.ActionCallback;
-import wing.java.swing.WindowCallback;
 import utest.Assert;
 import utest.ITest;
 import wing.Equal;
@@ -14,10 +11,7 @@ class TestHaxeJ implements ITest {
 	public function new() {}
 
 	public function testObject():Void {
-		Noop.checkCompilable(ActionCallback);
-		Noop.checkCompilable(WindowCallback);
-		Noop.checkCompilable(MouseCallback);
-		Noop.checkCompilable(JavaTools);
+		CompileTime.importPackage("wing.java");
 
 		final nativeArray1:NativeArray<Int> = NativeArray.make(0, 1, 2);
 		final nativeArray2:NativeArray<Int> = NativeArrayTools.from([0, 1, 2]);
