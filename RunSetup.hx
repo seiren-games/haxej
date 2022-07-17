@@ -32,7 +32,7 @@ class RunSetup {
 		root.addChild(dependencies);
 		dependencies.addChild(createDependency("org.apache.commons", "commons-exec", "1.3"));
 
-		File.saveContent("pom.xml", Printer.print(root, true));
+		File.saveContent("pom.xml", "<!--Auto-generated file-->\n" + Printer.print(root, true));
 
 		exec('mvn versions:use-latest-releases');
 		exec('mvn versions:commit');
@@ -57,7 +57,7 @@ class RunSetup {
 			}
 		];
 
-		final hxml:Array<String> = [];
+		final hxml:Array<String> = ["# Auto-generated file"];
 		hxml.push('-main TestAll');
 		hxml.push('-debug');
 		for (hxmlLib in hxmlLibs) {
