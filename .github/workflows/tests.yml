@@ -12,7 +12,7 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@main
       - name: Setup Lix
-        uses: lix-pm/setup-lix@1.0.0
+        uses: lix-pm/setup-lix@master
       - run: haxe --version
 
       - run: haxe --run RunSetup
