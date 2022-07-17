@@ -45,6 +45,7 @@ class RunSetup {
 			"haxelib install compiletime --quiet",
 			"haxelib git deep_equal https://github.com/kevinresol/deep_equal.git --quiet",
 			"haxelib install tink_core --quiet",
+			"haxelib install hxjava --quiet",
 		];
 		for (haxelibCommand in haxelibCommands) {
 			exec(haxelibCommand);
