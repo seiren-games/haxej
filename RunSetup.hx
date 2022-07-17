@@ -1,3 +1,4 @@
+import haxe.io.Path;
 import haxe.xml.Printer;
 import sys.io.File;
 
@@ -33,9 +34,9 @@ class RunSetup {
 
 		File.saveContent("pom.xml", Printer.print(root, true));
 
-		Sys.command('mvn versions:use-latest-releases');
-		Sys.command('mvn versions:commit');
-		Sys.command('mvn dependency:go-offline');
+		exec('mvn versions:use-latest-releases');
+		exec('mvn versions:commit');
+		exec('mvn dependency:go-offline');
 
 		final haxelibCommands:Array<String> = [
 			"haxelib git utest https://github.com/haxe-utest/utest.git --quiet",
@@ -44,7 +45,7 @@ class RunSetup {
 			"haxelib install compiletime --quiet",
 		];
 		for (haxelibCommand in haxelibCommands) {
-			Sys.command(haxelibCommand);
+			exec(haxelibCommand);
 		}
 
 		final hxmlLibs:Array<String> = [
@@ -104,5 +105,21 @@ class RunSetup {
 				}
 			}
 		];
+	}
+
+	function exec(cmd:String, ?maybeArgs:Array<String>):Int {
+		final args:Array<String> = if (maybeArgs == null) {
+			[];
+		} else {
+			maybeArgs;
+		}
+		Sys.println('${Path.removeTrailingSlashes(Sys.getCwd())}> ${cmd} ${args.join(" ")}');
+		final exitCode:Int = Sys.command(cmd, maybeArgs);
+		if (exitCode != 0) {
+			final message:String = 'error occurred. cmd: "${cmd} ${args.join(" ")}"\n'
+				+ 'exitCode: ${exitCode}';
+			throw message;
+		}
+		return exitCode;
 	}
 }
