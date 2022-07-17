@@ -40,6 +40,7 @@ class RunSetup {
 		final haxelibCommands:Array<String> = [
 			"haxelib git utest https://github.com/haxe-utest/utest.git --quiet",
 			"haxelib install safety --quiet",
+			"haxelib git wing https://github.com/seiren-games/wing.git --quiet",
 			"haxelib install compiletime --quiet",
 		];
 		for (haxelibCommand in haxelibCommands) {
