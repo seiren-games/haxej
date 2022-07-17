@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Checkout this repository
         uses: actions/checkout@main
-      - uses: krdlab/setup-haxe@master
+      - name: Setup Lix
+        uses: lix-pm/setup-lix@1.0.0
       - run: haxe --version
 
       - run: haxe --run RunSetup
