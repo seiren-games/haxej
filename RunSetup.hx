@@ -43,6 +43,8 @@ class RunSetup {
 			"haxelib install safety --quiet",
 			"haxelib git wing https://github.com/seiren-games/wing.git --quiet",
 			"haxelib install compiletime --quiet",
+			"haxelib git deep_equal https://github.com/kevinresol/deep_equal.git --quiet",
+			"haxelib install tink_core --quiet",
 		];
 		for (haxelibCommand in haxelibCommands) {
 			exec(haxelibCommand);
