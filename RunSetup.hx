@@ -21,12 +21,8 @@ class RunSetup {
 	}
 
 	function new() {
-		return; // [ ] Check and move it.
 		final root:Xml = Xml.createElement("project");
 		root.addChild(createElementWithPCData("modelVersion", "4.0.0"));
-		//trace(modelVersion.firstElement());
-		//trace(modelVersion.firstChild());
-		//trace(modelVersion.nodeValue);
 		root.addChild(createElementWithPCData("groupId", "haxe"));
 		root.addChild(createElementWithPCData("artifactId", "haxe-auto-generated-pom"));
 		root.addChild(createElementWithPCData("version", "1.0.0"));
@@ -35,7 +31,6 @@ class RunSetup {
 		root.addChild(dependencies);
 		dependencies.addChild(createDependency("org.apache.commons", "commons-exec", "1.3"));
 
-		Sys.println(Printer.print(root, true));
 		File.saveContent("pom.xml", Printer.print(root, true));
 
 		Sys.command('mvn versions:use-latest-releases');
@@ -95,19 +90,18 @@ class RunSetup {
 		return xml;
 	}
 
-	// [ ] wip
 	function getDependencies(rawXml:String):Array<JavaLib> {
 		final xml:Xml = Xml.parse(rawXml).firstElement();
-		for (element in xml.elementsNamed("dependencies")) {
-			for (element in xml.elementsNamed("dependency")) {
-				for (node in element) {
-					trace(node);
-				}
-				for (e in element.elements()) {
-					trace(e);
+		return [
+			for (element in xml.elementsNamed("dependencies")) {
+				for (element in element.elementsNamed("dependency")) {
+					{
+						groupId: element.elementsNamed("groupId").next().firstChild().nodeValue.trim(),
+						artifactId: element.elementsNamed("artifactId").next().firstChild().nodeValue.trim(),
+						version: element.elementsNamed("version").next().firstChild().nodeValue.trim()
+					}
 				}
 			}
-		}
-		return [];
+		];
 	}
 }
