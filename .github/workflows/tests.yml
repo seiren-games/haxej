@@ -17,5 +17,32 @@ jobs:
       - run: haxe --run RunSetup
       - run: haxelib list
 
+      # suggestion: Use `git-auto-commit-action` [backlog]
+      - name: setting git
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+      - name: Count changes
+        id: changes
+        run: |
+          git status -s -uall
+          echo "::set-output name=count::$((git status -s -uall | Measure-Object).Count)"
+      - name: commit
+        run: |
+          git status -s -uall
+          echo "count: ${{ steps.changes.outputs.count }}"
+          git remote -v
+          git branch --show-current
+          echo ----add----
+          git add ./*.hxml
+          echo ----commit----
+          git commit -m "github-actions auto commit"
+          echo ----push----
+          git push
+        if: steps.changes.outputs.count > 0
+      - run: |
+          git add -N .
+          git diff --exit-code
+
       - name: run tests
         run: haxe ./tests.hxml
