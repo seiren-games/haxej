@@ -9,11 +9,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - uses: krdlab/setup-haxe@master
+      - run: haxe --version
       - name: Checkout this repository
         uses: actions/checkout@main
-      - name: Setup Lix
-        uses: lix-pm/setup-lix@master
-      - run: haxe --version
 
       - run: haxe --run RunSetup
       - run: haxelib list
