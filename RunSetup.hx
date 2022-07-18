@@ -78,7 +78,7 @@ class RunSetup {
 		}
 		hxml.push('--jvm bin/main.jar');
 		hxml.push('--cmd chcp 932 && java -jar bin/main.jar');
-		File.saveContent("tests.hxml", hxml.join('\n'));
+		File.saveContent("tests.hxml", hxml.join('\n') + "\n");
 	}
 
 	function createElementWithPCData(element:String, pCData:String):Xml {
