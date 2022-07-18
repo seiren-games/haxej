@@ -10,12 +10,6 @@ typedef JavaLib = {
 	version:String
 }
 
-private class JavaLibRunSetup {
-	function new() {
-		
-	}
-}
-
 class RunSetup {
 	static function main():Void {
 		new RunSetup();
