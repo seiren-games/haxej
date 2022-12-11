@@ -1,5 +1,6 @@
 import haxe.io.Path;
 import haxe.xml.Printer;
+import sys.FileSystem;
 import sys.io.File;
 
 using StringTools;
@@ -47,6 +48,9 @@ class RunSetup {
 		for (haxelibCommand in haxelibCommands) {
 			exec(haxelibCommand);
 		}
+
+		FileSystem.createDirectory(".haxelib/haxe");
+		exec('git', ['clone', '--depth=1', 'https://github.com/seiren-games/haxe.git', '.haxelib/haxe', '--branch', '4.2.5-custom']);
 
 		final hxmlLibs:Array<String> = [
 			for (haxelibCommand in haxelibCommands) {
