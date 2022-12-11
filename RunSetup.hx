@@ -83,6 +83,10 @@ class RunSetup {
 		Sys.println("Generated hxml file.");
 
 		Sys.println("Setup Success.");
+
+		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
+		exec('haxe ./tests.hxml');
+		Sys.println("Setup tests");
 	}
 
 	function createElementWithPCData(element:String, pCData:String):Xml {
