@@ -16,6 +16,8 @@ class RunSetup {
 	}
 
 	function new() {
+		exec('git clean -f -X -d -- ./bin');
+
 		final root:Xml = Xml.createElement("project");
 		root.addChild(createElementWithPCData("modelVersion", "4.0.0"));
 		root.addChild(createElementWithPCData("groupId", "haxe"));
