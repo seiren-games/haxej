@@ -59,7 +59,7 @@ class RunSetup {
 		
 		haxelibs.iter(haxelib -> {
 			exec('git', ['clone', '--depth=1', haxelib.url, '.haxelib/${haxelib.name}']);
-			exec('haxelib dev ${haxelib.url} .haxelib/${haxelib.name}');
+			exec('haxelib dev ${haxelib.name} .haxelib/${haxelib.name}');
 		});
 
 		// Use custom haxe.
