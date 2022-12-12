@@ -92,7 +92,7 @@ class RunSetup {
 		// Run tests.
 		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
 		exec('haxe ./tests.hxml');
-		Sys.println("Setup tests");
+		Sys.println("Tests Success.");
 	}
 
 	function createElementWithPCData(element:String, pCData:String):Xml {
