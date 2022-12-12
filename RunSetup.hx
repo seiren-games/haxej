@@ -17,8 +17,10 @@ class RunSetup {
 	}
 
 	function new() {
+		// Clean workTree.
 		exec('git clean -ffd -X');
 
+		// Create pom.xml for download dependency jar.
 		final root:Xml = Xml.createElement("project");
 		root.addChild(createElementWithPCData("modelVersion", "4.0.0"));
 		root.addChild(createElementWithPCData("groupId", "haxe"));
@@ -31,6 +33,7 @@ class RunSetup {
 
 		File.saveContent("pom.xml", "<!--Auto-generated file-->\n" + Printer.print(root, true));
 
+		// Download dependency jar.
 		exec('mvn versions:use-latest-releases');
 		exec('mvn versions:commit');
 		exec('mvn dependency:go-offline');
@@ -44,11 +47,13 @@ class RunSetup {
 			"haxelib install tink_core --quiet",
 			"haxelib install hxjava --quiet",
 			"haxelib install hxassert --quiet",
+		// Download haxelib.
 		];
 		for (haxelibCommand in haxelibCommands) {
 			exec(haxelibCommand);
 		}
 
+		// Use custom haxe.
 		FileSystem.createDirectory(".haxelib/haxe");
 		exec('git', ['clone', '--depth=1', 'https://github.com/seiren-games/haxe.git', '.haxelib/haxe', '--branch', '4.2.5-custom']);
 
@@ -58,6 +63,7 @@ class RunSetup {
 			}
 		];
 
+		// Create hxml.
 		final hxml:Array<String> = ["# Auto-generated file"];
 		hxml.push('-main TestAll');
 		hxml.push('-debug');
@@ -81,9 +87,9 @@ class RunSetup {
 		hxml.push('--cmd chcp 932 && java -jar bin/main.jar');
 		File.saveContent("tests.hxml", hxml.join('\n') + "\n");
 		Sys.println("Generated hxml file.");
-
 		Sys.println("Setup Success.");
 
+		// Run tests.
 		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
 		exec('haxe ./tests.hxml');
 		Sys.println("Setup tests");
