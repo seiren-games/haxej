@@ -1,3 +1,5 @@
+[![CI](https://github.com/seiren-games/haxej/actions/workflows/tests.yml/badge.svg)](https://github.com/seiren-games/haxej/actions/workflows/tests.yml)
+
 # haxej
 Utilities for Haxe-JVM target.  
 (Only Haxe-JVM, Haxe-Java target is not supported)  
