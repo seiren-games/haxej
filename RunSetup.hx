@@ -3,6 +3,7 @@ import haxe.xml.Printer;
 import sys.FileSystem;
 import sys.io.File;
 
+using Lambda;
 using StringTools;
 
 typedef JavaLib = {
@@ -11,14 +12,22 @@ typedef JavaLib = {
 	version:String
 }
 
+typedef GitInfo = {
+	name:String,
+	url:String,
+	?branch:String,
+}
+
 class RunSetup {
 	static function main():Void {
 		new RunSetup();
 	}
 
 	function new() {
+		// Clean workTree.
 		exec('git clean -ffd -X');
 
+		// Create pom.xml for download dependency jar.
 		final root:Xml = Xml.createElement("project");
 		root.addChild(createElementWithPCData("modelVersion", "4.0.0"));
 		root.addChild(createElementWithPCData("groupId", "haxe"));
@@ -31,33 +40,34 @@ class RunSetup {
 
 		File.saveContent("pom.xml", "<!--Auto-generated file-->\n" + Printer.print(root, true));
 
+		// Download dependency jar.
 		exec('mvn versions:use-latest-releases');
 		exec('mvn versions:commit');
 		exec('mvn dependency:go-offline');
 
-		final haxelibCommands:Array<String> = [
-			"haxelib git utest https://github.com/haxe-utest/utest.git --quiet",
-			"haxelib install safety --quiet",
-			"haxelib git wing https://github.com/seiren-games/wing.git --quiet",
-			"haxelib install compiletime --quiet",
-			"haxelib git deep_equal https://github.com/kevinresol/deep_equal.git --quiet",
-			"haxelib install tink_core --quiet",
-			"haxelib install hxjava --quiet",
-			"haxelib install hxassert --quiet",
+		// Download haxelib.
+		final haxelibs:Array<GitInfo> = [
+			{name:"utest", url:'https://github.com/haxe-utest/utest.git'},
+			{name:"safety", url:'https://github.com/RealyUniqueName/Safety.git', branch: '1.1.2'},
+			{name:"wing", url:'https://github.com/seiren-games/wing.git'},
+			{name:"compiletime", url:'https://github.com/jasononeil/compiletime.git'},
+			{name:"deep_equal", url:'https://github.com/kevinresol/deep_equal.git'},
+			{name:"tink_core", url:'https://github.com/haxetink/tink_core.git', branch: '2.0.2'},
+			{name:"hxjava", url:'https://github.com/HaxeFoundation/hxjava.git', branch: '4.2.0'},
+			{name:"hxassert", url:'https://github.com/eliasku/hxassert.git'},
 		];
-		for (haxelibCommand in haxelibCommands) {
-			exec(haxelibCommand);
-		}
+		
+		haxelibs.iter(haxelib -> {
+			exec('git', ['clone', '--depth=1', haxelib.url, '.haxelib/${haxelib.name}']);
+			exec('haxelib dev ${haxelib.name} .haxelib/${haxelib.name}');
+		});
 
+		// Use custom haxe.
 		FileSystem.createDirectory(".haxelib/haxe");
 		exec('git', ['clone', '--depth=1', 'https://github.com/seiren-games/haxe.git', '.haxelib/haxe', '--branch', '4.2.5-custom']);
 
-		final hxmlLibs:Array<String> = [
-			for (haxelibCommand in haxelibCommands) {
-				haxelibCommand.split(" ")[2];
-			}
-		];
-
+		// Create hxml.
+		final hxmlLibs:Array<String> = haxelibs.map(haxelib -> haxelib.name);
 		final hxml:Array<String> = ["# Auto-generated file"];
 		hxml.push('-main TestAll');
 		hxml.push('-debug');
@@ -81,12 +91,12 @@ class RunSetup {
 		hxml.push('--cmd chcp 932 && java -jar bin/main.jar');
 		File.saveContent("tests.hxml", hxml.join('\n') + "\n");
 		Sys.println("Generated hxml file.");
-
 		Sys.println("Setup Success.");
 
+		// Run tests.
 		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
 		exec('haxe ./tests.hxml');
-		Sys.println("Setup tests");
+		Sys.println("Tests Success.");
 	}
 
 	function createElementWithPCData(element:String, pCData:String):Xml {
