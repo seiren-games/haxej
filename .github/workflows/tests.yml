@@ -43,5 +43,3 @@ jobs:
           git add -N .
           git diff --exit-code
 
-      - name: run tests
-        run: haxe ./tests.hxml

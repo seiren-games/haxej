@@ -1,5 +1,6 @@
 import haxe.io.Path;
 import haxe.xml.Printer;
+import sys.FileSystem;
 import sys.io.File;
 
 using StringTools;
@@ -42,10 +43,14 @@ class RunSetup {
 			"haxelib git deep_equal https://github.com/kevinresol/deep_equal.git --quiet",
 			"haxelib install tink_core --quiet",
 			"haxelib install hxjava --quiet",
+			"haxelib install hxassert --quiet",
 		];
 		for (haxelibCommand in haxelibCommands) {
 			exec(haxelibCommand);
 		}
+
+		FileSystem.createDirectory(".haxelib/haxe");
+		exec('git', ['clone', '--depth=1', 'https://github.com/seiren-games/haxe.git', '.haxelib/haxe', '--branch', '4.2.5-custom']);
 
 		final hxmlLibs:Array<String> = [
 			for (haxelibCommand in haxelibCommands) {
@@ -78,6 +83,10 @@ class RunSetup {
 		Sys.println("Generated hxml file.");
 
 		Sys.println("Setup Success.");
+
+		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
+		exec('haxe ./tests.hxml');
+		Sys.println("Setup tests");
 	}
 
 	function createElementWithPCData(element:String, pCData:String):Xml {
