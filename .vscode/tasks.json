@@ -3,6 +3,17 @@
 	"tasks": [
 		{
 			"type": "shell",
+			"command": "git clean -ff -X -d",
+			"label": "clean"
+		},
+		{
+			"type": "shell",
+			"command": "haxe --run RunSetup",
+			"label": "setup",
+			"dependsOn":["clean"]
+		},
+		{
+			"type": "shell",
 			"command": "haxe tests.hxml",
 			"problemMatcher": [
 				"$haxe-absolute",
@@ -14,7 +25,8 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"label": "haxe: tests.hxml"
+			"label": "tests",
+			"dependsOn":["setup"]
 		}
 	]
 }

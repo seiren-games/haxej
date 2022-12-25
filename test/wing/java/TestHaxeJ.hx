@@ -1,6 +1,8 @@
 package wing.java;
 
+import hx.strings.Version;
 import java.NativeArray;
+import java.lang.System;
 import utest.Assert;
 import utest.ITest;
 import wing.Equal;
@@ -17,8 +19,11 @@ class TestHaxeJ implements ITest {
 		final nativeArray2:NativeArray<Int> = NativeArrayTools.from([0, 1, 2]);
 		Assert.isTrue(Equal.equals(nativeArray1, nativeArray2));
 
-		JavaTools.putEnv("TEST_HAXE_J_ENV", "FOO");
-		Assert.isTrue(Sys.getEnv("TEST_HAXE_J_ENV") == "FOO");
+		final javaVersion:String = System.getProperty("java.version");
+		if (Version.of(javaVersion).major <= 8) {
+			JavaTools.putEnv("TEST_HAXE_J_ENV", "FOO");
+			Assert.isTrue(Sys.getEnv("TEST_HAXE_J_ENV") == "FOO");
+		}
 
 		Assert.isTrue(JavaSys.command(['dir ${JavaTools.programPath()}']) == 0);
 	}

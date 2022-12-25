@@ -55,6 +55,7 @@ class RunSetup {
 			{name:"tink_core", url:'https://github.com/haxetink/tink_core.git', branch: '2.0.2'},
 			{name:"hxjava", url:'https://github.com/HaxeFoundation/hxjava.git', branch: '4.2.0'},
 			{name:"hxassert", url:'https://github.com/eliasku/hxassert.git'},
+			{name:"haxe-strings", url:'https://github.com/vegardit/haxe-strings.git'},
 		];
 		
 		haxelibs.iter(haxelib -> {
