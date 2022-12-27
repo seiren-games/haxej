@@ -14,7 +14,7 @@ class JavaTools {
 	// It is better to use Apache-Commons-Exec if you want to deal with it in earnest.
 	public static function putEnv(env:String, val:String):Void {
 		final javaVersion:String = StringTools.replace(System.getProperty("java.version"), '_', '-');
-		if (Version.of(javaVersion) <= new Version(11)) {
+		if (Version.of(javaVersion) > new Version(11)) {
 			throw 'Only available in version 11 or lower. Now javaVersion:${javaVersion}';
 		}
 
