@@ -20,8 +20,8 @@ class TestHaxeJ implements ITest {
 		Assert.isTrue(Equal.equals(nativeArray1, nativeArray2));
 
 		final javaVersion:String = StringTools.replace(System.getProperty("java.version"), '_', '-');
-		final javaVersionMajor:Int = Version.of(javaVersion).major;
-		if (javaVersionMajor <= 11) {
+		trace(Version.of(javaVersion));
+		if (Version.of(javaVersion) <= new Version(11)) {
 			JavaTools.putEnv("TEST_HAXE_J_ENV", "FOO");
 			Assert.isTrue(Sys.getEnv("TEST_HAXE_J_ENV") == "FOO");
 		}

@@ -1,6 +1,5 @@
 import haxe.io.Path;
 import haxe.xml.Printer;
-import sys.FileSystem;
 import sys.io.File;
 
 using Lambda;
@@ -63,10 +62,6 @@ class RunSetup {
 			exec('haxelib dev ${haxelib.name} .haxelib/${haxelib.name}');
 		});
 
-		// Use custom haxe.
-		FileSystem.createDirectory(".haxelib/haxe");
-		exec('git', ['clone', '--depth=1', 'https://github.com/seiren-games/haxe.git', '.haxelib/haxe', '--branch', '4.2.5-custom']);
-
 		// Create hxml.
 		final hxmlLibs:Array<String> = haxelibs.map(haxelib -> haxelib.name);
 		final hxml:Array<String> = ["# Auto-generated file"];
@@ -95,7 +90,6 @@ class RunSetup {
 		Sys.println("Setup Success.");
 
 		// Run tests.
-		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
 		exec('haxe ./tests.hxml');
 		Sys.println("Tests Success.");
 	}
