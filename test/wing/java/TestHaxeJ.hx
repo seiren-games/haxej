@@ -8,6 +8,7 @@ import utest.ITest;
 import wing.Equal;
 
 using Safety;
+using wing.java.NativeArrayTools;
 
 class TestHaxeJ implements ITest {
 	public function new() {}
@@ -16,7 +17,7 @@ class TestHaxeJ implements ITest {
 		CompileTime.importPackage("wing.java");
 
 		final nativeArray1:NativeArray<Int> = NativeArray.make(0, 1, 2);
-		final nativeArray2:NativeArray<Int> = NativeArrayTools.from([0, 1, 2]);
+		final nativeArray2:NativeArray<Int> = [0, 1, 2].nativeArray();
 		Assert.isTrue(Equal.equals(nativeArray1, nativeArray2));
 
 		final javaVersion:String = StringTools.replace(System.getProperty("java.version"), '_', '-');
