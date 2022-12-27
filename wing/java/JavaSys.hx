@@ -7,6 +7,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import wing.SysCommandLine;
 
 using Safety;
+using wing.java.NativeArrayTools;
 
 class JavaSys {
 	/**
@@ -19,11 +20,11 @@ class JavaSys {
 			final comspec:String = Sys.getEnv("COMSPEC").or("cmd.exe");
 			new CommandLine(comspec).addArguments(NativeArray.make("/C", cmdLine.cmd));
 		} else {
-			new CommandLine(cmdLine.cmd).addArguments(NativeArrayTools.from(cmdLine.args));
+			new CommandLine(cmdLine.cmd).addArguments(cmdLine.args.nativeArray());
 		}
 		final exitValues:ReadOnlyArray<Int> = maybeExitValues.or([0]);
 		final executor:DefaultExecutor = new DefaultExecutor();
-		executor.setExitValues(NativeArrayTools.from(exitValues));
+		executor.setExitValues(exitValues.nativeArray());
 		return executor.execute(commandLine);
 	}
 }

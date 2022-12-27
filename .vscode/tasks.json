@@ -3,18 +3,15 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"command": "haxe tests.hxml",
+			"command": "haxe --run RunSetup",
+			"label": "setup and tests",
 			"problemMatcher": [
-				"$haxe-absolute",
 				"$haxe",
-				"$haxe-error",
-				"$haxe-trace"
 			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
-			"label": "haxe: tests.hxml"
-		}
+		},
 	]
 }

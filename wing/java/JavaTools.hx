@@ -1,6 +1,8 @@
 package wing.java;
 
+import hx.strings.Version;
 import java.lang.Class;
+import java.lang.System;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.nio.file.Paths;
@@ -11,6 +13,11 @@ class JavaTools {
 	// For quick use.
 	// It is better to use Apache-Commons-Exec if you want to deal with it in earnest.
 	public static function putEnv(env:String, val:String):Void {
+		final javaVersion:String = StringTools.replace(System.getProperty("java.version"), '_', '-');
+		if (Version.of(javaVersion) > new Version(11)) {
+			throw 'Only available in version 11 or lower. Now javaVersion:${javaVersion}';
+		}
+
 		final clazz:Class = Class.forName("java.lang.ProcessEnvironment");
 		final field:Field = clazz.getDeclaredField("theCaseInsensitiveEnvironment");
 		field.setAccessible(true);

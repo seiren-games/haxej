@@ -1,6 +1,5 @@
 import haxe.io.Path;
 import haxe.xml.Printer;
-import sys.FileSystem;
 import sys.io.File;
 
 using Lambda;
@@ -55,16 +54,13 @@ class RunSetup {
 			{name:"tink_core", url:'https://github.com/haxetink/tink_core.git', branch: '2.0.2'},
 			{name:"hxjava", url:'https://github.com/HaxeFoundation/hxjava.git', branch: '4.2.0'},
 			{name:"hxassert", url:'https://github.com/eliasku/hxassert.git'},
+			{name:"haxe-strings", url:'https://github.com/vegardit/haxe-strings.git'},
 		];
 		
 		haxelibs.iter(haxelib -> {
 			exec('git', ['clone', '--depth=1', haxelib.url, '.haxelib/${haxelib.name}']);
 			exec('haxelib dev ${haxelib.name} .haxelib/${haxelib.name}');
 		});
-
-		// Use custom haxe.
-		FileSystem.createDirectory(".haxelib/haxe");
-		exec('git', ['clone', '--depth=1', 'https://github.com/seiren-games/haxe.git', '.haxelib/haxe', '--branch', '4.2.5-custom']);
 
 		// Create hxml.
 		final hxmlLibs:Array<String> = haxelibs.map(haxelib -> haxelib.name);
@@ -94,7 +90,6 @@ class RunSetup {
 		Sys.println("Setup Success.");
 
 		// Run tests.
-		Sys.putEnv('HAXE_STD_PATH', '.haxelib/haxe/std');
 		exec('haxe ./tests.hxml');
 		Sys.println("Tests Success.");
 	}

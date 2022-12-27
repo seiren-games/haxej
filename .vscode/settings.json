@@ -1,0 +1,9 @@
+{
+    "haxe.configurations": [
+        ["tests.hxml"]
+    ],
+    "terminal.integrated.env.windows": {
+        // Change to the jdk you want when developing.
+		"JAVA_HOME": "C:/Program Files/Amazon Corretto/jdk17.0.5_8"
+	},
+}
